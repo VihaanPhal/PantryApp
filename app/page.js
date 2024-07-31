@@ -31,7 +31,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "90%", // Adjusted for responsiveness
+  maxWidth: 400,
   bgcolor: "background.paper",
   border: "none",
   boxShadow: 24,
@@ -226,7 +227,7 @@ export default function Home() {
         {loading ? <CircularProgress size={24} /> : "Add via image"}
       </Button>
       <Box
-        width="800px"
+        width={{ xs: "100%", md: "800px" }}
         bgcolor="#00796b"
         display="flex"
         alignItems="center"
@@ -241,8 +242,8 @@ export default function Home() {
         </Typography>
       </Box>
       <Stack
-        width="800px"
-        height="400px"
+        width={{ xs: "100%", md: "800px" }}
+        height={{ xs: "auto", md: "400px" }}
         spacing={2}
         overflow="auto"
         sx={{
