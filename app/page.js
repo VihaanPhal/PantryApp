@@ -48,11 +48,14 @@ export default function Home() {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [open, setOpen] = useState(false);
+  const [imageOpen, setImageOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleImageOpen = () => setImageOpen(true);
+  const handleImageClose = () => setImageOpen(false);
 
   const updatePantry = async () => {
     const pantryitems = [];
@@ -136,6 +139,7 @@ export default function Home() {
       URL.revokeObjectURL(imgElement.src); // Clean up the object URL
       document.body.removeChild(imgElement); // Remove imgElement from the DOM
       setImage(null); // Reset image state
+      handleImageClose(); // Close the modal
     };
   };
 
@@ -192,39 +196,58 @@ export default function Home() {
           </Button>
         </Box>
       </Modal>
+      <Modal
+        open={imageOpen}
+        onClose={handleImageClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Upload Image
+          </Typography>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ display: "none" }}
+            id="upload-image"
+          />
+          <label htmlFor="upload-image">
+            <Button
+              variant="contained"
+              color="primary"
+              component="span"
+              sx={{ mb: 2 }}
+            >
+              Choose Image
+            </Button>
+          </label>
+          <Button
+            variant="contained"
+            onClick={classifyImage}
+            sx={{ mt: 2 }}
+            disabled={loading || !image}
+          >
+            {loading ? <CircularProgress size={24} /> : "Save"}
+          </Button>
+        </Box>
+      </Modal>
       <Button
         variant="contained"
         color="primary"
         onClick={handleOpen}
         sx={{ mb: 2 }}
       >
-        Add Item
+        Add Item Manually
       </Button>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleImageUpload}
-        style={{ display: "none" }}
-        id="upload-image"
-      />
-      <label htmlFor="upload-image">
-        <Button
-          variant="contained"
-          color="primary"
-          component="span"
-          sx={{ mb: 2 }}
-        >
-          Upload Image
-        </Button>
-      </label>
       <Button
         variant="contained"
         color="primary"
-        onClick={classifyImage}
+        onClick={handleImageOpen}
         sx={{ mb: 2 }}
-        disabled={loading || !image}
       >
-        {loading ? <CircularProgress size={24} /> : "Add via image"}
+        Upload Image
       </Button>
       <Box
         width={{ xs: "100%", md: "800px" }}
